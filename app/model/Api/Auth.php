@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\api;
+namespace App\Model\Api;
 
 
 use Sifoni\Model\Base;
