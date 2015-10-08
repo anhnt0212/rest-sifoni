@@ -7,7 +7,7 @@ return array(
             'default' => array(
                 'driver'    => 'mysql',
                 'host'      => 'localhost',
-                'database'  => 'apijson',
+                'database'  => 'mini-demo',
                 'username'  => 'root',
                 'password'  => '',
                 'charset'   => 'utf8',

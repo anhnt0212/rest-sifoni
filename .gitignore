@@ -12,4 +12,4 @@
 !app/cache/.gitkeep
 !app/log/.gitkeep
 # Uploads 
-/web/uploas/
+/web/uploads/
