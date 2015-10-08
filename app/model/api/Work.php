@@ -12,6 +12,8 @@ class Work extends Base {
 
   public function getallListbyUser($user_id){
   	$list = Work::join('task','list.id','=','task.list_id')->where('list.user_id','=',$user_id)->get()->toArray();
+    /////
+    ////aaa
   	return $list;
   }
   public function getListbyID($id){
