@@ -6,7 +6,7 @@ namespace App\Controller\Api\v1;
 use App\Model\Api\Task;
 use Symfony\Component\HttpFoundation\Response;
 
-class NoteController extends AuthedApiController {
+class TaskController extends AuthedApiController {
     public function getPostAction()
     {
       if ($this->method == 'GET') {
