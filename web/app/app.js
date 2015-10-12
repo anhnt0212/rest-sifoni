@@ -32,7 +32,7 @@ angular.module('todolist', ['ngRoute'])
   .controller('LoginController', function($scope, $http, $location) {
     $scope.login = function () {
 
-      // $http.post('https://rest-sifoni-khanhicetea.c9.io/api/v1/login', JSON.stringify({
+      // $http.post('/api/v1/login', JSON.stringify({
       //     email: $scope.email,
       //     password: $scope.password
       //   })).success(function(result) {
@@ -41,7 +41,7 @@ angular.module('todolist', ['ngRoute'])
 
       // $http({
       //   method: 'POST',
-      //   url: 'https://rest-sifoni-khanhicetea.c9.io/api/v1/login',
+      //   url: '/api/v1/login',
       //   headers: {
       //     'Content-Type': "application/json"
       //   },
@@ -57,7 +57,7 @@ angular.module('todolist', ['ngRoute'])
       //   console.log(response);
       // });
 
-      fetch('https://rest-sifoni-khanhicetea.c9.io/api/v1/login', {
+      fetch('/api/v1/login', {
           method: 'post',
           body: JSON.stringify({
             email: $scope.email,
@@ -79,7 +79,7 @@ angular.module('todolist', ['ngRoute'])
 
       /*$http({
         method: 'POST',
-        url: 'https://rest-sifoni-khanhicetea.c9.io/api/v1/login',
+        url: '/api/v1/login',
         responseType: "json",
         data: [
           email: $scope.email,
@@ -116,7 +116,7 @@ angular.module('todolist', ['ngRoute'])
 
       $http({
         method: 'GET',
-        url: 'https://rest-sifoni-khanhicetea.c9.io/api/v1/me/note',
+        url: '/api/v1/me/note',
         headers: {
           'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -130,7 +130,7 @@ angular.module('todolist', ['ngRoute'])
     $scope.loadNotes();
 
     $scope.addNote = function () {
-      fetch('https://rest-sifoni-khanhicetea.c9.io/api/v1/me/note', {
+      fetch('/api/v1/me/note', {
         method: 'post',
         headers: {
           'Authorization': 'Bearer ' + window.localStorage.getItem('token')
@@ -149,7 +149,7 @@ angular.module('todolist', ['ngRoute'])
   })
   .controller('TasksController', function($scope, $http, $routeParams) {
     $scope.showTasks = function () {
-      fetch('https://rest-sifoni-khanhicetea.c9.io/api/v1/me/note/' + $routeParams.note_id, {
+      fetch('/api/v1/me/note/' + $routeParams.note_id, {
           method: 'get',
           headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
