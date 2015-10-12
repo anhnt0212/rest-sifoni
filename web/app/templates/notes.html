@@ -1,0 +1,50 @@
+<main class="page-content">
+  <div class="page-inner">
+      <div id="main-wrapper">
+          <div class="row">
+            <div class="col-md-12">
+                <section class="panel tasks-widget">
+                    <header class="panel-heading">
+                        DANH SÁCH CÁC NOTE  
+                    </header>
+                    <div class="panel-body">
+
+                        <div class="task-content">
+
+                            <table class="table table-hover">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Nodes</th>
+                                  <th>Last update</th>
+                                </tr>
+                              </thead>
+
+                              
+                                <tr class="task-title" ng-repeat="note in notes">
+                                  <td>
+                                    {{ note.id }}
+                                  </td>
+                                  <td class="task-title-sp">
+                                    <a href="#/notes/{{ note.id }}">{{ note.title }}</a>
+                                  </td>
+                                  <td>
+                                    {{ note.updated }}
+                                  </td>
+                                </tr>
+                              
+                            </table>
+
+                        </div>
+
+                        <div class="add-task-row">
+                          <input type="text" class="form-control nodes" placeholder="Write something ..." ng-model="note">
+                          <button class="btn btn-info btn-sm pull-left" ng-click="addNote()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Note</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div><!-- Row -->
+      </div><!-- Main Wrapper -->
+  </div><!-- Page Inner -->
+</main><!-- Page Content -->

@@ -1,0 +1,35 @@
+API ENDPOINT
+
+
+/data/2.5 : ENDPOINT VERSION (CURRENT)
+/data/3.0 : NEW
+
+
+
+
+
+GET : Read
+POST : Create
+PUT : Update
+DELETE : Delete
+
+
+Tasks
+
+Token = COOKIE ben web
+User_id dang dc request
+
+Kem theo Token
+
+GET /me/note
+GET /me/note/{note_id}
+
+POST /me/note
+	title : 
+	content :
+
+PUT /me/note/{note_id}
+	title
+	content
+
+DELETE /me/note/{note_id}
