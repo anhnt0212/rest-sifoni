@@ -34,7 +34,6 @@ class AuthController extends ApiController {
     }
     public function registerAction() {
         $email = $this->post_data['email'];
-        $email = $this->post_data['username'];
         $password = $this->post_data['password'];
         $user = User::where('email', '=', $email)->first();
         if ($user) {
