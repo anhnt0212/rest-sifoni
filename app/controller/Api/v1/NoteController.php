@@ -16,7 +16,6 @@ class NoteController extends AuthedApiController {
       } elseif ($this->method == 'POST') {
         $note = new Note();
         $note->title = $this->post_data['title'];
-        $note->content = $this->post_data['content'];
         $note->user_id = $this->authed->id;
         $note->save();
 
@@ -31,7 +30,6 @@ class NoteController extends AuthedApiController {
       $note = Note::findOrFail($id);
       if ($this->method == 'PUT') {
         $note->title = $this->post_data['title'];
-        $note->content = $this->post_data['content'];
         $note->user_id = $this->authed->id;
         $note->save();
 
