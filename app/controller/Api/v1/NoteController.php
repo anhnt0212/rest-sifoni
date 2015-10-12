@@ -4,6 +4,7 @@ namespace App\Controller\Api\v1;
 
 
 use App\Model\Api\Note;
+use App\Model\Api\Task;
 use Symfony\Component\HttpFoundation\Response;
 
 class NoteController extends AuthedApiController {
@@ -35,15 +36,17 @@ class NoteController extends AuthedApiController {
         $note->save();
 
         return $this->json($note->toArray());
-      } elseif ($this->method == 'DELETE') {
+      } if ($this->method == 'DELETE') {
         try {
             $note->delete();
         } catch (\Exception $e) {
           return $this->json(['status' => 0]);
         }
-
-
         return $this->json(['status' => 1]);
+      }
+      if ($this->method == 'GET') {
+            $tasks = Task::where('note_id', '=', $id)->get();
+            return $this->json($tasks->toArray());
       }
 
       return $this->fail('Fucking fail');
