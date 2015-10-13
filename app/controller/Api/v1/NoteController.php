@@ -54,7 +54,7 @@ class NoteController extends AuthedApiController {
             foreach ($tasks as $t) {
               $notes[$t['note_id']]['tasks'][] = $t;
             }
-            dump($notes);die();
+            dump($notes);die();//khong hieu tai sao k dc
             return $this->json($notes->toArray());
       }
 
