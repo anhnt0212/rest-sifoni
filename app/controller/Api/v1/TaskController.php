@@ -38,8 +38,6 @@ class TaskController extends AuthedApiController {
         } catch (\Exception $e) {
           return $this->json(['status' => 0]);
         }
-
-
         return $this->json(['status' => 1]);
       }
 
