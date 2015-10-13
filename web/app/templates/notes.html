@@ -17,6 +17,7 @@
                                   <th>ID</th>
                                   <th>Nodes</th>
                                   <th>Last update</th>
+                                  <th></th>
                                 </tr>
                               </thead>
 
@@ -31,7 +32,8 @@
                                   <td>
                                     {{ note.updated }}
                                   </td>
-                                </tr>
+                                  <td><button type="button" class="btn btn-danger" ng-click="del_note(note.id)">Delete</button></td>
+                                </tr> 
                               
                             </table>
 
