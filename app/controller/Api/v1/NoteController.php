@@ -45,14 +45,9 @@ class NoteController extends AuthedApiController {
       if ($this->method == 'GET') {
             $notes = Note::where('user_id', '=', $this->authed->id)->where('id','=',$id)->select('title','id','updated')->get()->toArray();
             $nn_id = array();
-            foreach ($notes as $n) {
+            foreach ($notes as &$n) {
               $nn_id [] = $n['id'];
-              $n['tasks'] = [];
-              $notes[$n['id']] = $n;
-            }
-            $tasks = Task::where('note_id', '=', $id)->select('content','note_id')->get()->toArray();
-            foreach ($tasks as $t) {
-              $notes[$t['note_id']]['tasks'][] = $t;
+              $n['tasks'] = Task::where('note_id', '=', $id)->select('content','note_id')->get()->toArray();;
             }
             return $this->json($notes);
       }

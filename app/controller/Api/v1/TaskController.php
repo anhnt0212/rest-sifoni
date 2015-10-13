@@ -4,6 +4,7 @@ namespace App\Controller\Api\v1;
 
 
 use App\Model\Api\Task;
+use App\Model\Api\Tag;
 use App\Model\Api\Note;
 use Sifoni\Model\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class TaskController extends AuthedApiController {
         $task->tag_id = $this->post_data['tag_id'];
         $task->save();
         return $this->json($task->toArray());
-      } elseif ($this->method == 'DELETE') {
+      } if ($this->method == 'DELETE') {
         try {
             $task->delete();
         } catch (\Exception $e) {
@@ -40,7 +41,21 @@ class TaskController extends AuthedApiController {
         }
         return $this->json(['status' => 1]);
       }
-
+      if($this->method == 'GET'){
+        $tasks = Task::join('tag_has_task','task.id','=','tag_has_task.task_id')->where('id','=',$id)->get()->toArray();
+        foreach ($tasks as $t) {
+            $id_tag = $t['tag_id'];
+            $tags[$id_tag]= Tag::where('id', '=', $id_tag )->get()->toArray();
+        }
+        dump($tags);
+        foreach ($tags as $tg) {
+          $t[] = $tg['id'];
+          $tg['tag'] = [];
+          $tasks[$tg['tag']] = $tg;
+        }
+        dump($tasks);
+        return $this->json($tasks);
+      }
       return $this->fail('Fucking fail');
     }
 }
