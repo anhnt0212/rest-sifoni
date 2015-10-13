@@ -120,14 +120,14 @@ angular.module('todolist', ['ngRoute'])
         },
         responseType: "json"
       }).then(function successCallback(response) {
-        $scope.tasks = response.data;
-        for (var i = 0; i < response.data.length; i++) {
-          if(response.data[i].level == 1) $scope.tasks[i].level = "primary";
-          else if(response.data[i].level == 2) $scope.tasks[i].level = "warning";
+        $scope.tasks = response.data[0].tasks;
+        for (var i = 0; i < $scope.tasks.length; i++) {
+          if($scope.tasks[i].level == 1) $scope.tasks[i].level = "info";
+          else if($scope.tasks[i].level == 2) $scope.tasks[i].level = "warning";
           else $scope.tasks[i].level = "danger";
 
-          if(response.data[i].status == 1) $scope.tasks[i].status = "None";
-          else if(response.data[i].status == 2) $scope.tasks[i].status = "Pending";
+          if($scope.tasks[i].status == 1) $scope.tasks[i].status = "None";
+          else if($scope.tasks[i].status == 2) $scope.tasks[i].status = "Pending";
           else $scope.tasks[i].status = "Completed";
         };
       }, function errorCallback(response) {
@@ -139,7 +139,7 @@ angular.module('todolist', ['ngRoute'])
     $scope.addTask = function () {
       $http({
         method: 'POST',
-        url: '/api/v1/me/task/',
+        url: '/api/v1/me/task',
         headers: {
           'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -173,15 +173,18 @@ angular.module('todolist', ['ngRoute'])
       });
     };
 
-    $scope.completed = function(task_id) {    
+    $scope.completed = function(key) {    
       $http({
         method: 'PUT',
-        url: '/api/v1/me/task/' + task_id,
+        url: '/api/v1/me/task/' + $scope.tasks[key].id,
         headers: {
           'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
         data: JSON.stringify({
-          status: 3
+          content: $scope.tasks[key].content,
+          level: parseInt($scope.tasks[key].level),
+          status: 3,
+          note_id: parseInt($scope.tasks[key].note_id)
         }),
         responseType: "json"
       }).then(function successCallback(response) {
@@ -192,7 +195,7 @@ angular.module('todolist', ['ngRoute'])
     };
 
     $scope.editTask = function(key) {
-      $('#submitTask').attr('ng-click', 'update('+ $scope.tasks[key].id + ')');
+      $('#submitTask').attr('ng-click', 'update('+ key + ')');
       $scope.currTask = $scope.tasks[key].content;
       var status = $scope.tasks[key].status;
       if(status == 'None') $scope.currStatus = 1;
@@ -201,19 +204,23 @@ angular.module('todolist', ['ngRoute'])
       $('#edit-task').modal('show');
     };
 
-    $scope.update = function(task_id) {    
+    $scope.update = function(key) {  
+      alert(key);
       $http({
         method: 'PUT',
-        url: '/api/v1/me/task/' + task_id,
+        url: '/api/v1/me/task/' + $scope.tasks[key].id,
         headers: {
           'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
         data: JSON.stringify({
+          level: parseInt($scope.tasks[key].level),
+          note_id: parseInt($scope.tasks[key].note_id),
           status: $scope.currStatus,
           content: $scope.currTask
         }),
         responseType: "json"
       }).then(function successCallback(response) {
+        $('#edit-task').modal('hide');
         $scope.loadTasks();
       }, function errorCallback(response) {
         alert('Update task fail!');
