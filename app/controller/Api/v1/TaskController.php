@@ -27,13 +27,14 @@ class TaskController extends AuthedApiController {
     {
       $task = Task::findOrFail($id);
       if ($this->method == 'PUT') {
-        $task = new Task();
         $task->content = $this->post_data['content'];
         $task->level = $this->post_data['level'];
+        $task->status = $this->post_data['status'];
         $task->tag_id = $this->post_data['tag_id'];
+        $task->note_id = $this->post_data['note_id'];
         $task->save();
         return $this->json($task->toArray());
-      } if ($this->method == 'DELETE') {
+      } elseif ($this->method == 'DELETE') {
         try {
             $task->delete();
         } catch (\Exception $e) {
@@ -41,19 +42,13 @@ class TaskController extends AuthedApiController {
         }
         return $this->json(['status' => 1]);
       }
-      if($this->method == 'GET'){
+      elseif($this->method == 'GET'){
         $tasks = Task::join('tag_has_task','task.id','=','tag_has_task.task_id')->where('id','=',$id)->get()->toArray();
-        foreach ($tasks as $t) {
-            $id_tag = $t['tag_id'];
-            $tags[$id_tag]= Tag::where('id', '=', $id_tag )->get()->toArray();
+        $tt_id = array();
+        foreach ($tasks as &$t) {
+            $tt_id = $t['tag_id'];
+            $t['tag']= Tag::where('id', '=', $t['tag_id'] )->get()->toArray();
         }
-        dump($tags);
-        foreach ($tags as $tg) {
-          $t[] = $tg['id'];
-          $tg['tag'] = [];
-          $tasks[$tg['tag']] = $tg;
-        }
-        dump($tasks);
         return $this->json($tasks);
       }
       return $this->fail('Fucking fail');

@@ -15,11 +15,12 @@ class TagController extends AuthedApiController {
       if ($this->method == 'POST') {
         $tag = new Tag();
         $tag->name = $this->post_data['name'];
+        $tag->task_id = $this->post_data['task_id'];
         $tag->save();
         return $this->json($tag->toArray());
       }
     }
     public function putDeleteAction($id){
-      
+       
     }
 }
