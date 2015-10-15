@@ -213,7 +213,25 @@ angular.module('todolist', ['ngRoute','ui.bootstrap','dialogs'])
     };
     
     $scope.editTask = function(key) {
-      var dlg = $dialogs.create('/app/templates/update_task.html','updateTaskController',{},{key: false,back: 'static'});
+      var contentTask = $scope.tasks[key].content;
+      var statusTask = $scope.tasks[key].status;
+      if(statusTask == 'None') statusTask = 1;
+      else if(statusTask == 'Pending') statusTask = 2;
+      else statusTask = 3;
+
+      var dlg = $dialogs.create(
+        '/app/templates/update_task.html',
+        'updateTaskController',
+        {
+          content: contentTask,
+          status: statusTask
+        },
+        {
+          key: false,
+          back: 'static'
+        }
+      );
+ 
       dlg.result.then(function(task){
         $http({
           method: 'PUT',
@@ -240,10 +258,10 @@ angular.module('todolist', ['ngRoute','ui.bootstrap','dialogs'])
   
   .controller('updateTaskController',function($scope, $modalInstance, data){
     $scope.task = {
-      content : '',
-      status : ''
+      content : data.content,
+      status : data.status
+      
     };
-  
     $scope.cancel = function(){
       $modalInstance.dismiss('canceled');  
     }; // end cancel
