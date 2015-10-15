@@ -3658,3 +3658,15 @@ body:not(.small-sidebar) .horizontal-bar .menu.accordion-menu>li>a>.menu-icon {
 	height: 31px;
 	border-left: 0;
 }
+
+.content {
+	border: 0;
+}
+
+.level {
+	width:80px; 
+}
+
+.status {
+	border: 0;
+}

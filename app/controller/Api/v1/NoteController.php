@@ -43,8 +43,13 @@ class NoteController extends AuthedApiController {
         return $this->json(['status' => 1]);
       }
       if ($this->method == 'GET') {
-            $tasks = Task::where('note_id', '=', $id)->get();
-            return $this->json($tasks->toArray());
+            $notes = Note::where('user_id', '=', $this->authed->id)->where('id','=',$id)->select('title','id','updated')->get()->toArray();
+            $nn_id = array();
+            foreach ($notes as &$n) {
+              $nn_id [] = $n['id'];
+              $n['tasks'] = Task::where('note_id', '=', $id)->get()->toArray();
+            }
+            return $this->json($notes);
       }
 
       return $this->fail('Fucking fail');
