@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('todolist', ['ngRoute'])
+angular.module('todolist', ['ngRoute','ui.bootstrap','dialogs'])
   .config(['$routeProvider',
     function($routeProvider) {
       $routeProvider
@@ -31,6 +31,10 @@ angular.module('todolist', ['ngRoute'])
   ])
 
   .controller('LoginController', function($scope, $http, $location) {
+    if('token' in window.localStorage) {
+      $location.path("/notes");
+    }
+
     $scope.login = function () {
       $http({
         method: 'POST',
@@ -56,7 +60,7 @@ angular.module('todolist', ['ngRoute'])
     }
   })
 
-  .controller('NotesController', function($scope, $http) {
+  .controller('NotesController', function($scope, $http, $location) {
     $scope.loadNotes = function () {
       $http({
         method: 'GET',
@@ -106,10 +110,15 @@ angular.module('todolist', ['ngRoute'])
         alert('Delete notes fail!');
       });
     };
-
+    
+    $scope.logout = function() {
+      window.localStorage.removeItem('token');
+      $location.path('/login');
+    };
+    
   })
 
-  .controller('TasksController', function($scope, $http, $routeParams, $rootScope) {
+  .controller('TasksController', function($scope, $http, $routeParams, $rootScope, $location, $dialogs) {
     $scope.loadTasks = function () {
       $rootScope.level = 1;
       $http({
@@ -193,40 +202,64 @@ angular.module('todolist', ['ngRoute'])
         alert('Update task fail!');
       });
     };
-
-    $scope.editTask = function(key) {
-      $('#submitTask').attr('ng-click', 'update('+ key + ')');
-      $scope.currTask = $scope.tasks[key].content;
-      var status = $scope.tasks[key].status;
-      if(status == 'None') $scope.currStatus = 1;
-      else if(status == 'Pending') $scope.currStatus = 2;
-      else $scope.currStatus = 3; 
-      $('#edit-task').modal('show');
+    
+    $scope.backUrl = function() {
+      window.history.back();
     };
-
-    $scope.update = function(key) {  
-      alert(key);
-      $http({
-        method: 'PUT',
-        url: '/api/v1/me/task/' + $scope.tasks[key].id,
-        headers: {
-          'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
-        data: JSON.stringify({
-          level: parseInt($scope.tasks[key].level),
-          note_id: parseInt($scope.tasks[key].note_id),
-          status: $scope.currStatus,
-          content: $scope.currTask
-        }),
-        responseType: "json"
-      }).then(function successCallback(response) {
-        $('#edit-task').modal('hide');
-        $scope.loadTasks();
-      }, function errorCallback(response) {
-        alert('Update task fail!');
+    
+    $scope.logout = function() {
+      window.localStorage.removeItem('token');
+      $location.path('/login');
+    };
+    
+    $scope.editTask = function(key) {
+      var dlg = $dialogs.create('/app/templates/update_task.html','updateTaskController',{},{key: false,back: 'static'});
+      dlg.result.then(function(task){
+        $http({
+          method: 'PUT',
+          url: '/api/v1/me/task/' + $scope.tasks[key].id,
+          headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+          },
+          data: JSON.stringify({
+            level: parseInt($scope.tasks[key].level),
+            note_id: parseInt($scope.tasks[key].note_id),
+            status: task.status,
+            content: task.content
+          }),
+          responseType: "json"
+        }).then(function successCallback(response) {
+          $scope.loadTasks();
+        }, function errorCallback(response) {
+          alert('Update task fail!');
+        });
       });
     };
 
+  })
+  
+  .controller('updateTaskController',function($scope, $modalInstance, data){
+    $scope.task = {
+      content : '',
+      status : ''
+    };
+  
+    $scope.cancel = function(){
+      $modalInstance.dismiss('canceled');  
+    }; // end cancel
+    
+    $scope.save = function(){
+      data = {
+        status: $scope.task.status,
+        content: $scope.task.content
+      }
+      $modalInstance.close(data);
+    }; // end save
+    
+    $scope.hitEnter = function(evt){
+      if(angular.equals(evt.keyCode,13) && !(angular.equals($scope.content,null) || angular.equals($scope.content,'')))
+  				$scope.save();
+    };
   })
 
   .controller('RegisterController', function($scope, $http, $location) {
@@ -252,3 +285,4 @@ angular.module('todolist', ['ngRoute'])
       });
     }
   });
+  
