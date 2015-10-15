@@ -48,6 +48,7 @@ class NoteController extends AuthedApiController {
             foreach ($notes as &$n) {
               $nn_id [] = $n['id'];
               $n['tasks'] = Task::where('note_id', '=', $id)->get()->toArray();;
+
             }
             return $this->json($notes);
       }

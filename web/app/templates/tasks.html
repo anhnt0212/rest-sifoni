@@ -5,7 +5,13 @@
             <div class="col-md-12">
                 <section class="panel tasks-widget">
                     <header class="panel-heading">
-                        Todo list
+                        <button title="Back" type="button" class="btn btn-default" style="border:0" ng-click="backUrl()">
+                          <img src="/app/components/img/back.png" width="30" height="30"></img>
+                        </button>
+                        Danh sách các tasks
+                        <button type="button" class="btn btn-default" style="float:right; border:0" ng-click="logout()">
+                         <strong>Logout</strong>
+                        </button>
                     </header>
                     <div class="panel-body">
 
@@ -22,7 +28,7 @@
                               </thead>
 
                               
-                                <tr class="task-title" ng-repeat="task in tasks">
+                                <tr class="task-title" ng-repeat="(key, task) in tasks">
                                   <td class="task-title-sp">
                                     {{ task.content }}
                                     <a href="#" ng-repeat="tag in task.tags">
@@ -38,9 +44,9 @@
                                     {{ task.updated }}
                                   </td>
                                   <td>
-                                    <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
-                                    <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
-                                    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                                    <button class="btn btn-success btn-xs" ng-click="completed(key)"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+                                    <button class="btn btn-primary btn-xs" ng-click="editTask(key)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+                                    <button class="btn btn-danger btn-xs" ng-click="del_task(task.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
                                   </td>
                                 </tr>
                               
@@ -49,13 +55,13 @@
                         </div>
 
                         <div class="add-task-row">
-                          <input type="text" class="form-control tasks" placeholder="Write something ...">
-                          <select id="input" class="form-control levels" required="required">
-                            <option>Low</option>
-                            <option>Normal</option>
-                            <option>High</option>
+                          <input type="text" class="form-control tasks" placeholder="Write something ..." ng-model="content">
+                          <select id="input" class="form-control levels" required="required" ng-model="level">
+                            <option value="1">Low</option>
+                            <option value="2">Normal</option>
+                            <option value="3">High</option>
                           </select>
-                          <a class="btn btn-info btn-sm pull-left" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Task</a>
+                          <button class="btn btn-info btn-sm pull-left" ng-click="addTask()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Task</button>
                         </div>
                     </div>
                 </section>
@@ -64,3 +70,4 @@
       </div><!-- Main Wrapper -->
   </div><!-- Page Inner -->
 </main><!-- Page Content -->
+
