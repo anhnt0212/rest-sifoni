@@ -6,9 +6,9 @@ return array(
         'capsule.connections' => array(
             'default' => array(
                 'driver'    => 'mysql',
-                'host'      => 'localhost',
-                'database'  => 'mini-demo',
-                'username'  => 'root',
+                'host'      => '127.0.0.1',
+                'database'  => 'c9',
+                'username'  => 'khanhicetea',
                 'password'  => '',
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',

@@ -164,7 +164,7 @@ angular.module('todolist', ['ngRoute'])
       }, function errorCallback(response) {
         alert('Add task fail!');
       });
-      $scope.content = "";
+      $scope.addContent = "";
     };
 
     $scope.del_task = function(task_id) {    
