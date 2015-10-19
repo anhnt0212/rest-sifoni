@@ -6,6 +6,7 @@
                     <div class="login-box">
                         <a href="index.html" class="logo-name text-lg text-center">ToDoList</a>
                         <p class="text-center m-t-md">Create a Todolist's account</p>
+                        <form ng-submit="submitRegister()">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Name" required ng-model="username">
                             </div>
@@ -16,9 +17,10 @@
                                 <input type="password" class="form-control" placeholder="Password" required ng-model="password">
                             </div>
                      
-                            <button type="button" class="btn btn-success btn-block m-t-xs" ng-click="register()">Submit</button>
+                            <button type="submit" class="btn btn-success btn-block m-t-xs">Submit</button>
                             <p class="text-center m-t-xs text-sm">Already have an account?</p>
                             <a href="#login" class="btn btn-default btn-block m-t-xs">Login</a>
+                        </form>
                     </div>
                 </div>
             </div><!-- Row -->

@@ -6,7 +6,7 @@ angular.module('todolist')
 		  $location.path("/notes");
 		}
 
-		$scope.login = function () {
+		$scope.submitLogin = function () {
 		  $http({
 		    method: 'POST',
 		    url: '/api/v1/login',
@@ -32,7 +32,7 @@ angular.module('todolist')
 	})
 
 	.controller('RegisterController', function($scope, $http, $location) {
-	    $scope.register = function() {
+	    $scope.submitRegister = function() {
 	      $http({
 	        method: 'POST',
 	        url: '/api/v1/register',
