@@ -185,10 +185,21 @@ angular.module('todolist', ['ngRoute'])
     $scope.updated = function(key) {  
       $('#content_'+key).attr('readonly', "");  
       $('#status_'+key).attr('disabled', "");  
+      $('#update_'+key).attr('disabled', "");  
+      $('#edit_'+key).removeAttr('disabled');  
       var level = null;
       if($scope.tasks[key].level == 'info') level = 1;
       else if($scope.tasks[key].level == 'warning') level = 2;
       else level = 3;
+      var status = null;
+      if($('#status_'+key).prop('value') == '0') {
+        if($scope.tasks[key].status == 'None') status = 1;
+        else if($scope.tasks[key].status == 'Pending') status = 2;
+        else status = 3;
+      }
+      else {
+        status = parseInt($('#status_'+key).prop('value'));
+      }
       $http({
         method: 'PUT',
         url: '/api/v1/me/task/' + $scope.tasks[key].id,
@@ -198,7 +209,7 @@ angular.module('todolist', ['ngRoute'])
         data: JSON.stringify({
           content: $('#content_'+key).prop('value'),
           level: level,
-          status: parseInt($('#status_'+key).prop('value')),
+          status: status,
           note_id: parseInt($scope.tasks[key].note_id)
         }),
         responseType: "json"
@@ -221,6 +232,8 @@ angular.module('todolist', ['ngRoute'])
     $scope.editTask = function(key) {
       $('#content_'+key).removeAttr('readonly');
       $('#status_'+key).removeAttr('disabled');
+      $('#edit_'+key).attr('disabled', "");  
+      $('#update_'+key).removeAttr('disabled');
     };
 
   })
