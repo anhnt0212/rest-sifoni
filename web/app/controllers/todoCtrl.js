@@ -134,10 +134,10 @@ angular.module('todolist')
 	    };
 
 	    $scope.updated = function(key) {  
-	      $('#content_'+key).attr('readonly', "");  
-	      $('#status_'+key).attr('disabled', "");  
-	      $('#update_'+key).attr('disabled', "");  
-	      $('#edit_'+key).removeAttr('disabled');  
+	      // $('#content_'+key).attr('readonly', "");  
+	      // $('#status_'+key).attr('disabled', "");  
+	      // $('#update_'+key).attr('disabled', "");  
+	      // $('#edit_'+key).removeAttr('disabled');  
 	      var level = null;
 	      if($scope.tasks[key].level == 'info') level = 1;
 	      else if($scope.tasks[key].level == 'warning') level = 2;
@@ -180,10 +180,15 @@ angular.module('todolist')
 	      $location.path('/login');
 	    };
 	    
-	    $scope.editTask = function(key) {
-	      $('#content_'+key).removeAttr('readonly');
-	      $('#status_'+key).removeAttr('disabled');
-	      $('#edit_'+key).attr('disabled', "");  
-	      $('#update_'+key).removeAttr('disabled');
-	    };
+	    $scope.checkTaskContent = function(key) {
+	    	if(event.keyCode == 13) 
+	    		$scope.updated(key);
+	    }
+
+	    // $scope.editTask = function(key) {
+	    //   $('#content_'+key).removeAttr('readonly');
+	    //   $('#status_'+key).removeAttr('disabled');
+	    //   $('#edit_'+key).attr('disabled', "");  
+	    //   $('#update_'+key).removeAttr('disabled');
+	    // };
 	});
