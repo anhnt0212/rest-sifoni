@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="add-task-row">
-                          <input type="text" class="form-control tasks" placeholder="Write something ..." ng-model="addContent">
+                          <input type="text" class="form-control tasks" placeholder="Write something ..." ng-model="addContent" ng-keyup="checkSubmitTask()">
                           <select id="input" class="form-control levels" required="required" ng-model="addLevel">
                             <option value="1">Low</option>
                             <option value="2">Normal</option>
