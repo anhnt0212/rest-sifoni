@@ -1,6 +1,6 @@
 <main class="page-content">
   <div class="page-inner">
-      <div id="main-wrapper">
+      <div class="main-wrapper">
           <div class="row">
             <div class="col-md-12">
                 <section class="panel tasks-widget">
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="add-task-row">
-                          <input type="text" class="form-control nodes" placeholder="Write something ..." ng-model="note">
+                          <input type="text" class="form-control nodes" placeholder="Write something ..." ng-model="note" ng-keyup="checkSubmitNote()">
                           <button class="btn btn-info btn-sm pull-left" ng-click="addNote()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add New Note</button>
                         </div>
                     </div>
