@@ -18,6 +18,11 @@ angular.module('todolist')
 	    };
 	    $scope.loadNotes();
 
+	    $scope.checkSubmitNote = function () {
+	    	if(event.keyCode == 13) 
+	    		$scope.addNote();
+	    };
+
 	    $scope.addNote = function () {
 	      $http({
 	        method: 'POST',
@@ -85,6 +90,11 @@ angular.module('todolist')
 	      });
 	    };
 	    $scope.loadTasks();
+
+	    $scope.checkSubmitTask = function () {
+	    	if(event.keyCode == 13) 
+	    		$scope.addTask();
+	    };
 
 	    $scope.addTask = function () {
 	      $http({
