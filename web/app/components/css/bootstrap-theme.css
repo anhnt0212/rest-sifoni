@@ -2673,7 +2673,7 @@ body:not(.small-sidebar) .horizontal-bar .menu.accordion-menu>li>a>.menu-icon {
 	font-size: 13px;
 	color: #90999c
 }
-#main-wrapper {
+.main-wrapper {
 	margin: 20px;
 	padding: 0
 }
@@ -3319,7 +3319,7 @@ body:not(.small-sidebar) .horizontal-bar .menu.accordion-menu>li>a>.menu-icon {
 .box-notifications ul li p {
 	margin: 0
 }
-.page-error #main-wrapper {
+.page-error .main-wrapper {
 	margin: 5%
 }
 .page-error .details {
@@ -3335,7 +3335,7 @@ body:not(.small-sidebar) .horizontal-bar .menu.accordion-menu>li>a>.menu-icon {
 	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url(../images/coming-soon.jpg);
 	background-size: cover
 }
-.page-forgot #main-wrapper, .page-lock-screen #main-wrapper, .page-login #main-wrapper, .page-register #main-wrapper {
+.page-forgot .main-wrapper, .page-lock-screen .main-wrapper, .page-login .main-wrapper, .page-register .main-wrapper {
 	margin: 5%;
 }
 .login-box {
