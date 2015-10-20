@@ -36,6 +36,15 @@ class TagController extends AuthedApiController {
         }
         return $this->json(['status' => 1]);
       }
+       if($this->method == 'GET') {
+          $tags = Tag::join('tag_has_task','tag.id','=','tag_has_task.tag_id')->where('id','=',$id)->get()->toArray();
+          $tg_id = array();
+          foreach ($tags as &$t) {
+            $tg_id = $t['task_id'];
+            $t['task']= Task::where('id', '=', $t['task_id'] )->get()->toArray();
+        }
+        return $this->json($tags);
+      }
       return $this->fail('Fucking fail');
     }
 }

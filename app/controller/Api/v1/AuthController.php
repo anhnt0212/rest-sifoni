@@ -12,6 +12,9 @@ class AuthController extends ApiController {
     public function loginAction() {
         $email = $this->post_data['email'];
         $password = $this->post_data['password'];
+        if($email == NULL|| $password == NULL ){
+          return $this->fail('Email and password not empty', Response::HTTP_BAD_REQUEST);
+        }
         $user = User::where('email', '=', $email)->first();
         if ($user) {
               if ($user->password == md5($password) && $user->status == 1) {
@@ -35,6 +38,9 @@ class AuthController extends ApiController {
     public function registerAction() {
         $email = $this->post_data['email'];
         $password = $this->post_data['password'];
+        if($email == NULL|| $password == NULL ){
+          return $this->fail('Email and password not empty', Response::HTTP_BAD_REQUEST);
+        }
         $user = User::where('email', '=', $email)->first();
         if ($user) {
             return $this->fail('Email already exists ', Response::HTTP_BAD_REQUEST);
