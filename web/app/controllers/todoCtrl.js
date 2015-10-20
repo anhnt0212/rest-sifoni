@@ -49,17 +49,10 @@ angular.module('todolist')
 	      todoService.get('note/' + $routeParams.note_id).then(function (data) {
 	      	$scope.tasks = data[0].tasks;
 	        for (var i = 0; i < $scope.tasks.length; i++) {
-	        	$scope.tasks[i].level =  $scope.arrLabel[$scope.tasks[i].level - 1];
-	        	$scope.tasks[i].showLevel = $scope.arrLevel[$scope.tasks[i].level - 1];
+	        	var level = $scope.tasks[i].level - 1;
+	        	$scope.tasks[i].level =  $scope.arrLabel[level];
+	        	$scope.tasks[i].showLevel = $scope.arrLevel[level];
 	        	$scope.tasks[i].status = $scope.arrStatus[$scope.tasks[i].status - 1];
-
-	          // if($scope.tasks[i].level == 1) {$scope.tasks[i].level = "info"; $scope.tasks[i].showLevel = "Low";}
-	          // else if($scope.tasks[i].level == 2) {$scope.tasks[i].level = "warning"; $scope.tasks[i].showLevel = "Normal";}
-	          // else {$scope.tasks[i].level = "danger"; $scope.tasks[i].showLevel = "High";}
-
-	          // if($scope.tasks[i].status == 1) $scope.tasks[i].status = "None";
-	          // else if($scope.tasks[i].status == 2) $scope.tasks[i].status = "Pending";
-	          // else $scope.tasks[i].status = "Completed";
 	        };
 	      });
 	    };
@@ -97,9 +90,6 @@ angular.module('todolist')
 
 	    $scope.updated = function(key) {    
 	      var level = null;
-	      // if($scope.tasks[key].level == 'info') level = 1;
-	      // else if($scope.tasks[key].level == 'warning') level = 2;
-	      // else level = 3;
 	      for (var i = 0; i < $scope.arrLabel.length; i++) {
 	      	if ($scope.tasks[key].level == $scope.arrLabel[i]) {
 	      		level = i+1;
@@ -108,9 +98,6 @@ angular.module('todolist')
 	      };
 	      var status = null;
 	      if($('#status_'+key).prop('value') == '0') {
-	        // if($scope.tasks[key].status == 'None') status = 1;
-	        // else if($scope.tasks[key].status == 'Pending') status = 2;
-	        // else status = 3;
 	        for (var i = 0; i < $scope.arrStatus.length; i++) {
 	        	if ($scope.arrStatus[i] == $scope.tasks[key].status) {
 	        		status = i + 1;
