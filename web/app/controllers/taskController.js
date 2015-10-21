@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('todolist')
-	.controller('TasksController', function($scope, $routeParams, $rootScope, todoService, userService) {
+	.controller('TasksController', function($scope, $routeParams, $rootScope, todoService, userService, taskService) {
 	    $rootScope.arrLabel = ['info', 'warning', 'danger'];
 	    $rootScope.arrLevel = ['Low', 'Normal', 'High'];
 	    $rootScope.arrStatus = ['None', 'Pending', 'Completed'];
@@ -27,23 +27,8 @@ angular.module('todolist')
 
 	    $scope.addTask = function () {
 	      var content = $scope.addContent;
-	      var tags = [];
-	      var t = 0;
-	      for (var i = 0; i < content.length; i++) {
-	      	if(content[i] == '#') {
-	      		tags[t] = '';
-	      		for (var j = i + 1; j < content.length; j++) {
-	      			i++;
-	      			if(content[j] == ' ') break;
-	      			tags[t] += content[j];
-	      		};
-	      		t++;
-	      	}
-	      };     
-      	  String.prototype.replaceAll = function(target, replacement) {
-		    return this.split(target).join(replacement);
-		  };
-		  content = content.replaceAll('#', '');
+	      var tags = taskService.getTags(content);
+		  content = taskService.replaceAll(content, '#', '');
 
 		  var data = {
 		  	content: content,
@@ -53,7 +38,7 @@ angular.module('todolist')
 			tags: tags
 		  };
 
-		  todoService.add('task', data).then(function (res){
+		  todoService.add('me/task', data).then(function (res){
 		  	$scope.loadTasks();
 		  }, function (res) {
 		  	alert('Add task fail!');
