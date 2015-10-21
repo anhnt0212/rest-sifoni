@@ -1,52 +1,14 @@
 'use strict';
 
 angular.module('todolist')
-	.controller('NotesController', function($scope, $http, $location, todoService) {
-	    $scope.loadNotes = function () {
-			todoService.get('note').then(function(data) {
-	            $scope.notes = data;
-	        });
-	    };
-	    $scope.loadNotes();
-
-	    $scope.checkSubmitNote = function () {
-	    	if(event.keyCode == 13) 
-	    		$scope.addNote();
-	    };
-
-	    $scope.addNote = function () {
-		  todoService.add('note', {title: $scope.note}).then(function (res){
-		  	$scope.loadNotes();	
-		  }, function (res) {
-		  	alert('Add note fail!');
-		  });
-	      $scope.note = "";
-	    };
-
-	    $scope.del_note = function(note_id) {    
-		  todoService.delete('note/' + note_id)
-		  	.then(function (res) {
-		  		$scope.loadNotes();
-		  	}, function (res) {
-		  		alert('Delete notes fail!');
-		  	})
-	    };
-	    
-	    $scope.logout = function() {
-	      window.localStorage.removeItem('token');
-	      $location.path('/login');
-	    };
-	    
-	  })
-
-	  .controller('TasksController', function($scope, $http, $routeParams, $rootScope, $location, todoService) {
-	    $scope.arrLabel = ['info', 'warning', 'danger'];
-	    $scope.arrLevel = ['Low', 'Normal', 'High'];
-	    $scope.arrStatus = ['None', 'Pending', 'Completed'];
+	.controller('TasksController', function($scope, $routeParams, $rootScope, todoService, userService) {
+	    $rootScope.arrLabel = ['info', 'warning', 'danger'];
+	    $rootScope.arrLevel = ['Low', 'Normal', 'High'];
+	    $rootScope.arrStatus = ['None', 'Pending', 'Completed'];
 
 	    $scope.loadTasks = function () { 
 	      $rootScope.addLevel = 1;
-	      todoService.get('note/' + $routeParams.note_id).then(function (data) {
+	      todoService.get('me/note/' + $routeParams.note_id).then(function (data) {
 	      	$scope.tasks = data[0].tasks;
 	        for (var i = 0; i < $scope.tasks.length; i++) {
 	        	var level = $scope.tasks[i].level - 1;
@@ -64,11 +26,31 @@ angular.module('todolist')
 	    };
 
 	    $scope.addTask = function () {
+	      var content = $scope.addContent;
+	      var tags = [];
+	      var t = 0;
+	      for (var i = 0; i < content.length; i++) {
+	      	if(content[i] == '#') {
+	      		tags[t] = '';
+	      		for (var j = i + 1; j < content.length; j++) {
+	      			i++;
+	      			if(content[j] == ' ') break;
+	      			tags[t] += content[j];
+	      		};
+	      		t++;
+	      	}
+	      };     
+      	  String.prototype.replaceAll = function(target, replacement) {
+		    return this.split(target).join(replacement);
+		  };
+		  content = content.replaceAll('#', '');
+
 		  var data = {
-		  	content: $scope.addContent,
+		  	content: content,
 			level: parseInt($scope.addLevel),
 			status: 1,
-			note_id: parseInt($routeParams.note_id)
+			note_id: parseInt($routeParams.note_id),
+			tags: tags
 		  };
 
 		  todoService.add('task', data).then(function (res){
@@ -80,7 +62,7 @@ angular.module('todolist')
 	    };
 
 	    $scope.del_task = function(task_id) {    
-		  todoService.delete('task/' + task_id)
+		  todoService.delete('me/task/' + task_id)
 		  	.then(function (res) {
 		  		$scope.loadTasks();
 		  	}, function (res) {
@@ -115,7 +97,7 @@ angular.module('todolist')
 			note_id: parseInt($scope.tasks[key].note_id)
 		  };
 
-		  todoService.update('task/' + $scope.tasks[key].id, data)
+		  todoService.update('me/task/' + $scope.tasks[key].id, data)
 		  	.then(function (res) {
 		  		$scope.loadTasks();
 		  	}, function (res) {
@@ -127,13 +109,10 @@ angular.module('todolist')
 	      window.history.back();
 	    };
 	    
-	    $scope.logout = function() {
-	      window.localStorage.removeItem('token');
-	      $location.path('/login');
-	    };
+	    $scope.logout = function() { userService.logout(); };
 	    
 	    $scope.checkTaskContent = function(key) {
 	    	if(event.keyCode == 13) 
 	    		$scope.updated(key);
-	    }
+	    };
 	});

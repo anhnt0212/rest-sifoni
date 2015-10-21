@@ -1,24 +1,18 @@
 'use strict';
 
 angular.module('todolist')
-	.controller('LoginController', function($scope, $http, $location) {
+	.controller('LoginController', function($scope, $location, userService) {
 		if('token' in window.localStorage) {
 		  $location.path("/notes");
 		}
 
 		$scope.submitLogin = function () {
-		  $http({
-		    method: 'POST',
-		    url: '/api/v1/login',
-		    headers: {
-		      'Content-Type': "application/json"
-		    },
-		    data: JSON.stringify({
-		      email: $scope.email,
-		      password: $scope.password
-		    }),
-		    responseType: "json"
-		  }).then(function successCallback(response) {
+		  var data = {
+		    email: $scope.email,
+	        password: $scope.password
+		  };
+		  userService.post('login', data)
+		  .then(function successCallback(response) {
 		    if ('token' in response.data) {
 		      window.localStorage.setItem('token', response.data.token);
 		      $location.path("/notes");
@@ -31,18 +25,15 @@ angular.module('todolist')
 		}
 	})
 
-	.controller('RegisterController', function($scope, $http, $location) {
+	.controller('RegisterController', function($scope, $location, userService) {
 	    $scope.submitRegister = function() {
-	      $http({
-	        method: 'POST',
-	        url: '/api/v1/register',
-	        data: JSON.stringify({
-	          username: $scope.username,
-	          email: $scope.email,
-	          password: $scope.password
-	        }),
-	        responseType: "json"
-	      }).then(function successCallback(response) {
+	      var data = {
+		    username: $scope.username,
+          	email: $scope.email,
+          	password: $scope.password
+		  };
+		  userService.post('register', data)
+	      .then(function successCallback(response) {
 	        if ('token' in response.data) {
 	          window.localStorage.setItem('token', response.data.token);
 	          $location.path("/notes");

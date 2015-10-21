@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('todolist', ['ngRoute'])
-  .config(['$routeProvider',
-    function($routeProvider) {
+  .config(function($routeProvider, $locationProvider) {
       $routeProvider
         .when('/login', {
           templateUrl: 'app/templates/login.html',
@@ -24,8 +23,13 @@ angular.module('todolist', ['ngRoute'])
           templateUrl: 'app/templates/notes.html',
           controller: 'NotesController'
         })
+        .when('/tags/:tag_id', {
+          templateUrl: 'app/templates/tasks.html',
+          controller: 'ShowTagsController'
+        })
         .otherwise({
           redirectTo: '/login'
         });
-    }
-  ]);
+        
+      $locationProvider.html5Mode(true);
+  });

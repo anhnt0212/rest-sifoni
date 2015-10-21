@@ -3,6 +3,7 @@
 <head>
 	<title>ToDoList Web App</title>
 	<meta charset="utf-8" />
+	<base href="/">
 	<link rel="stylesheet" type="text/css" href="/app/components/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/app/components/css/bootstrap-theme.css">
     <link rel="stylesheet" type="text/css" href="/app/components/css/tasks.css">
@@ -11,9 +12,14 @@
     <script type="text/javascript" src="/app/components/js/angular.min.js"></script>
 	<script type="text/javascript" src="/app/components/js/angular-route.min.js"></script>
 	<script type="text/javascript" src="/app/app.js"></script>
-	<script type="text/javascript" src="/app/controllers/todoCtrl.js"></script>
-	<script type="text/javascript" src="/app/controllers/userCtrl.js"></script>
-	<script type="text/javascript" src="/app/services/todo.js"></script>
+	//Todo Controllers
+	<script type="text/javascript" src="/app/controllers/userController.js"></script>
+	<script type="text/javascript" src="/app/controllers/noteController.js"></script>
+	<script type="text/javascript" src="/app/controllers/taskController.js"></script>
+	<script type="text/javascript" src="/app/controllers/tagController.js"></script>
+	//Todo Services
+	<script type="text/javascript" src="/app/services/todoService.js"></script>
+	<script type="text/javascript" src="/app/services/userService.js"></script>
 </head>
 <body ng-view>
 
