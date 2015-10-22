@@ -6,7 +6,7 @@ return array(
         'capsule.connections' => array(
             'default' => array(
                 'driver'    => 'mysql',
-                'host'      => 'localhost',
+                'host'      => '127.0.0.1',
                 'database'  => 'mini-demo',
                 'username'  => 'root',
                 'password'  => '',
