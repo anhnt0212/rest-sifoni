@@ -5,6 +5,7 @@ namespace App\Controller\Api\v1;
 
 use App\Model\Api\Note;
 use App\Model\Api\Task;
+use App\Model\Api\Tag;
 use Symfony\Component\HttpFoundation\Response;
 
 class NoteController extends AuthedApiController {
@@ -44,15 +45,19 @@ class NoteController extends AuthedApiController {
       }
       if ($this->method == 'GET') {
             $notes = Note::where('user_id', '=', $this->authed->id)->where('id','=',$id)->select('title','id','updated')->get()->toArray();
-            $nn_id = array();
             foreach ($notes as &$n) {
-              $nn_id [] = $n['id'];
-              $n['tasks'] = Task::where('note_id', '=', $id)->get()->toArray();;
+              $count = Task::where('note_id', '=', $id)->count('id');
+              $n['count_task'] = $count;
+              $n['tasks'] = Task::where('note_id', '=', $id)->get()->toArray();
+              foreach ($n['tasks'] as &$key ) {
+                $tt_id = $key['tag_id'];
+                $key['count_tag']= Tag::where('id', '=', $key['tag_id'] )->count('id');
+                $key['tag']= Tag::where('id', '=', $key['tag_id'] )->get()->toArray();
 
+              }
             }
             return $this->json($notes);
       }
-
       return $this->fail('Fucking fail');
     }
 }
