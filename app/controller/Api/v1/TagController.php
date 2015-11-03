@@ -12,13 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 class TagController extends AuthedApiController {
     public function PostAction()
     {
-      if ($this->method == 'POST') {
-        $tag = new Tag();
-        $tag->name = $this->post_data['name'];
-        $tag->task_id = $this->post_data['task_id'];
-        $tag->save();
-        return $this->json($tag->toArray());
-      }
+      // if ($this->method == 'POST') {
+      //   $tag = new Tag();
+      //   $tag->name = $this->post_data['name'];
+      //   $tag->task_id = $this->post_data['task_id'];
+      //   $tag->save();
+      //   return $this->json($tag->toArray());
+      // }
+      return $this->fail('Fucking fail');
     }
     public function putDeleteAction($id){
       $tag = Tag::findOrFail($id);
