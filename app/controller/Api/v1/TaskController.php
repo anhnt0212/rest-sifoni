@@ -32,16 +32,21 @@ class TaskController extends AuthedApiController {
              $task->note_id = $this->post_data['note_id'];
              $task->level = $this->post_data['level'];
              $task->save();
-             $has_tag = new Tag_has_task();
-             foreach ($id_tag as $t) {
-               dump($t['id']);
-               $has_tag->tag_id = $t['id'];
+             $id = $task->id;
+             foreach ($id_tag as $ttt) {
+               $has_tag = new Tag_has_task();
+               $has_tag->tag_id = $ttt['id'];
                $has_tag->task_id = $task->id;
+               $has_tag->save();
              }
-             $has_tag->save();
-             die();
              if($has_tag->save()){
-               return $this->json($task->toArray());
+               $tasks = Task::join('tag_has_task','task.id','=','tag_has_task.task_id')->where('id','=',$id)->get()->toArray();
+               $tt_id = array();
+                foreach ($tasks as &$t) {
+                    $tt_id = $t['tag_id'];
+                    $t['tag']= Tag::where('id', '=', $t['tag_id'] )->get()->toArray();
+                }
+                return $this->json($tasks);
              }//endig
              else{
                return $this->fail('Fucking fail');
