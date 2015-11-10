@@ -7,8 +7,8 @@ return array(
             'default' => array(
                 'driver'    => 'mysql',
                 'host'      => '127.0.0.1',
-                'database'  => 'c9',
-                'username'  => 'khanhicetea',
+                'database'  => 'mini-demo',
+                'username'  => 'anhnt0212',
                 'password'  => '',
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',

@@ -52,6 +52,7 @@ class NoteController extends AuthedApiController {
               $n['tasks'] = Task::where('note_id', '=', $id)->get()->toArray();
               // dump($n['tasks']);
               // dump($notes);
+              //fix tag ??
               $tag_id =  array();
               foreach ($n['tasks'] as &$key ) {
                 $tag_id = $tag_id= Tag_has_task::where('task_id','=',$key['id'])->select('tag_id')->get();
