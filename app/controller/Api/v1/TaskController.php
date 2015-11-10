@@ -72,6 +72,7 @@ class TaskController extends AuthedApiController {
         return $this->json($task->toArray());
       } elseif ($this->method == 'DELETE') {
         try {
+            $has_task = Tag_has_task::where('task_id','=',$id)->delete();
             $task->delete();
         } catch (\Exception $e) {
           return $this->json(['status' => 0]);

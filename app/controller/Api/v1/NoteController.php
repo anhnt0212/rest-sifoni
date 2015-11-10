@@ -6,6 +6,7 @@ namespace App\Controller\Api\v1;
 use App\Model\Api\Note;
 use App\Model\Api\Task;
 use App\Model\Api\Tag;
+use App\Model\Api\Tag_has_task;
 use Symfony\Component\HttpFoundation\Response;
 
 class NoteController extends AuthedApiController {
@@ -49,11 +50,17 @@ class NoteController extends AuthedApiController {
               $count = Task::where('note_id', '=', $id)->count('id');
               $n['count_task'] = $count;
               $n['tasks'] = Task::where('note_id', '=', $id)->get()->toArray();
+              // dump($n['tasks']);
+              // dump($notes);
+              $tag_id =  array();
               foreach ($n['tasks'] as &$key ) {
-                $tt_id = $key['tag_id'];
-                $key['count_tag']= Tag::where('id', '=', $key['tag_id'] )->count('id');
-                $key['tag']= Tag::where('id', '=', $key['tag_id'] )->get()->toArray();
-
+                $tag_id = $tag_id= Tag_has_task::where('task_id','=',$key['id'])->select('tag_id')->get();
+                foreach ($tag_id as &$tag_id ) {
+                  $tag_id['count_tag']= Tag::where('id', '=', $tag_id['tag_id'])->count('id');
+                  $tag_id['tag']= Tag::where('id', '=',$tag_id['tag_id'])->get()->toArray();
+                }
+                $key['count_tag'] = $tag_id['count_tag'];
+                $key['tag'] = $tag_id['tag'];
               }
             }
             return $this->json($notes);

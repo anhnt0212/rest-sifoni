@@ -32,10 +32,10 @@
                                 <tr class="task-title" ng-repeat="(key, task) in tasks">
                                   <td class="task-title-sp"> 
                                     <input type="text" name="content" class="content" value="{{ task.content }}" id="content_{{key}}" ng-keyup="checkTaskContent(key)">
-                                    <a href="tags/{{ tag.id }}" ng-repeat="tag in task.tags">
+                                    <a href="#tags/{{ tag.id }}" ng-repeat="tag in task.tag">
                                       <span class="label label-default label-tag">
                                       <span class="glyphicon glyphicon-tag" aria-hidden="true">
-                                      </span> {{ tag.text }}</span>
+                                      </span> {{ tag.name }}</span>
                                     </a>
                                   </td>
                                   <td>

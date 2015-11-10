@@ -31,5 +31,5 @@ angular.module('todolist', ['ngRoute'])
           redirectTo: '/login'
         });
         
-      $locationProvider.html5Mode(true);
+      // $locationProvider.html5Mode(true);
   });
