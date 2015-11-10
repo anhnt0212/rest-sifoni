@@ -35,15 +35,15 @@ angular.module('todolist')
 			level: parseInt($scope.addLevel),
 			status: 1,
 			note_id: parseInt($routeParams.note_id),
-			tags: tags
+			tag: tags
 		  };
 
+		  $scope.addContent = "";
 		  todoService.add('me/task', data).then(function (res){
 		  	$scope.loadTasks();
 		  }, function (res) {
 		  	alert('Add task fail!');
 		  });
-	      $scope.content = "";
 	    };
 
 	    $scope.del_task = function(task_id) {    
